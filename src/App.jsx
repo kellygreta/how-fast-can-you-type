@@ -1,35 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import Header from "./components/Header";
+import Game from "./components/Game";
+import ResultsModal from "./components/ResultsModal";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [currentResult, setCurrentResult] = useState(null);
+  const [showResults, setShowResults] = useState(false);
+
+  const handleGameEnd = (result) => {
+    setCurrentResult(result);
+    setShowResults(true);
+
+    // Save result in localStorage
+    const savedResults = JSON.parse(
+      localStorage.getItem("typingResults") || "[]"
+    );
+    localStorage.setItem(
+      "typingResults",
+      JSON.stringify([result, ...savedResults])
+    );
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="min-h-screen bg-gradient-to-br from-blue-400 via-pink-500 to-purple-700 p-6">
+      <div className="max-w-4xl mx-auto">
+        <Header />
+        <Game onGameEnd={handleGameEnd} />
+        <ResultsModal
+          result={currentResult}
+          isVisible={showResults}
+          onClose={() => setShowResults(false)}
+          onRetry={() => setShowResults(false)}
+        />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    </div>
+  );
+};
 
-export default App
+export default App;
