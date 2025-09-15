@@ -208,7 +208,10 @@ const Game = forwardRef(({ onGameEnd }, ref) => {
   }, [selectRandomText]);
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl p-8">
+    <div
+      className="rounded-2xl shadow-xl p-8"
+      style={{ backgroundColor: "rgb(var(--bg-primary))" }}
+    >
       <ModeSelector
         selectedDuration={gameState.duration}
         onDurationChange={handleDurationChange}
@@ -219,7 +222,10 @@ const Game = forwardRef(({ onGameEnd }, ref) => {
 
       <ProgressBar progress={progress} />
 
-      <div className="bg-gray-50 rounded-xl p-8 mb-6 relative min-h-48">
+      <div
+        className="rounded-xl p-8 mb-6 relative min-h-48"
+        style={{ backgroundColor: "rgb(var(--bg-secondary))" }}
+      >
         <TextDisplay
           text={gameState.currentText}
           currentIndex={gameState.currentIndex}
@@ -249,7 +255,12 @@ const Game = forwardRef(({ onGameEnd }, ref) => {
         <div className="text-center">
           <button
             onClick={startTest}
-            className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:shadow-lg hover:transform hover:-translate-y-1 transition-all duration-300"
+            className="px-8 py-4 rounded-full text-lg font-semibold text-white hover:shadow-lg hover:transform hover:-translate-y-1 transition-all duration-300"
+            style={{
+              backgroundImage: `linear-gradient(to right,
+              rgb(var(--color-primary)),
+              rgb(var(--color-primary-hover)))`,
+            }}
           >
             Start Test
           </button>
@@ -260,7 +271,10 @@ const Game = forwardRef(({ onGameEnd }, ref) => {
         <div className="text-center">
           <button
             onClick={resetGame}
-            className="bg-gray-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-gray-600 transition-all duration-300"
+            className="px-6 py-3 rounded-full font-semibold text-white transition-all duration-300"
+            style={{
+              backgroundColor: "rgb(var(--color-secondary))",
+            }}
           >
             <RotateCcw className="inline-block mr-2" size={16} />
             Reset

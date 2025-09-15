@@ -1,7 +1,7 @@
 import { Zap, Target, Clock } from "lucide-react";
 
 const StatsHud = ({ stats }) => (
-  <div className="bg-blue-500 text-white p-6 rounded-xl mb-6 shadow-lg">
+  <div className="bg-[rgb(var(--color-primary))] text-white p-6 rounded-xl mb-6 shadow-lg">
     <div className="flex justify-around">
       <div className="text-center">
         <div className="text-3xl font-bold flex items-center justify-center">

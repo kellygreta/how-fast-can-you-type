@@ -18,7 +18,7 @@ const TypingInput = ({ value, onChange, onKeyDown, disabled, placeholder }) => {
       onKeyDown={onKeyDown}
       disabled={disabled}
       placeholder={placeholder}
-      className="w-full p-4 text-lg border-2 border-gray-300 rounded-lg outline-none font-mono bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all"
+      className="w-full p-4 text-lg border-2 border-gray-300 rounded-lg outline-none font-mono bg-white focus:border-[rgb(var(--color-primary))] focus:ring-4 focus:ring-blue-100 transition-all"
     />
   );
 };

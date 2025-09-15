@@ -32,7 +32,15 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-400 via-pink-500 to-purple-700 p-6">
+    <div
+      className="min-h-screen p-6"
+      style={{
+        backgroundImage: `linear-gradient(to bottom right,
+        rgb(var(--bg-gradient-from)),
+        rgb(var(--bg-gradient-via)),
+        rgb(var(--bg-gradient-to)))`,
+      }}
+    >
       <div className="max-w-4xl mx-auto">
         <Header />
         <Game ref={gameRef} onGameEnd={handleGameEnd} />

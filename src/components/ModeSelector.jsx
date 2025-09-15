@@ -17,8 +17,8 @@ const ModeSelector = ({ selectedDuration, onDurationChange, disabled }) => {
           disabled={disabled}
           className={`px-6 py-3 border-2 rounded-full font-semibold transition-all duration-300 ${
             selectedDuration === duration
-              ? "bg-blue-500 text-white border-blue-500 shadow-lg transform -translate-y-1"
-              : "bg-white text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white hover:transform hover:-translate-y-1"
+              ? "bg-[rgb(var(--color-primary))] text-white border-[rgb(var(--color-primary))] shadow-lg transform -translate-y-1"
+              : "bg-white text-[rgb(var(--color-primary))] border-[rgb(var(--color-primary))] hover:[rgb(var(--color-primary))] hover:text-white hover:transform hover:-translate-y-1"
           } ${disabled ? "opacity-50 cursor-not-allowed" : "hover:shadow-lg"}`}
         >
           <Timer className="inline-block mr-2" size={16} />

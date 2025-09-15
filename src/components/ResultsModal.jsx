@@ -24,15 +24,17 @@ const ResultsModal = ({ result, isVisible, onClose, onRetry }) => {
       <div className="bg-white rounded-2xl p-8 max-w-md w-full animate-in zoom-in duration-300">
         <div className="text-center mb-6">
           <Award className="mx-auto text-yellow-500 mb-4" size={48} />
-          <h2 className="text-2xl font-bold text-blue-500 mb-2">
+          <h2 className="text-2xl font-bold text-[rgb(var(--color-primary))] mb-2">
             Test Complete!
           </h2>
         </div>
 
         <div className="grid grid-cols-2 gap-4 mb-6">
           <div className="bg-gray-50 p-4 rounded-xl text-center">
-            <div className="text-3xl font-bold text-blue-500">{result.wpm}</div>
-            <div className="text-sm text-gray-600 uppercase tracking-wide">
+            <div className="text-3xl font-bold text-[rgb(var(--color-primary))]">
+              {result.wpm}
+            </div>
+            <div className="text-sm text-[rgb(var(--color-secondary-hover))] uppercase tracking-wide">
               WPM
             </div>
           </div>
@@ -40,7 +42,7 @@ const ResultsModal = ({ result, isVisible, onClose, onRetry }) => {
             <div className="text-3xl font-bold text-green-500">
               {result.accuracy}
             </div>
-            <div className="text-sm text-gray-600 uppercase tracking-wide">
+            <div className="text-sm text-[rgb(var(--color-secondary-hover))] uppercase tracking-wide">
               Accuracy %
             </div>
           </div>
@@ -48,7 +50,7 @@ const ResultsModal = ({ result, isVisible, onClose, onRetry }) => {
             <div className="text-3xl font-bold text-purple-500">
               {result.characters}
             </div>
-            <div className="text-sm text-gray-600 uppercase tracking-wide">
+            <div className="text-sm text-[rgb(var(--color-secondary-hover))] uppercase tracking-wide">
               Characters
             </div>
           </div>
@@ -56,7 +58,7 @@ const ResultsModal = ({ result, isVisible, onClose, onRetry }) => {
             <div className="text-3xl font-bold text-red-500">
               {result.errors}
             </div>
-            <div className="text-sm text-gray-600 uppercase tracking-wide">
+            <div className="text-sm text-[rgb(var(--color-secondary-hover))] uppercase tracking-wide">
               Errors
             </div>
           </div>
@@ -65,14 +67,14 @@ const ResultsModal = ({ result, isVisible, onClose, onRetry }) => {
         <div className="flex gap-3 justify-center">
           <button
             onClick={onRetry}
-            className="flex items-center px-6 py-3 bg-blue-500 text-white rounded-full font-semibold hover:bg-blue-600 transition-colors"
+            className="flex items-center px-6 py-3 bg-[rgb(var(--color-primary))] text-white rounded-full font-semibold hover:bg-[rgb(var(--color-secondary-hover))] transition-colors"
           >
             <RotateCcw className="mr-2" size={16} />
             Try Again
           </button>
           <button
             onClick={shareResults}
-            className="flex items-center px-6 py-3 border-2 border-blue-500 text-blue-500 rounded-full font-semibold hover:bg-blue-500 hover:text-white transition-colors"
+            className="flex items-center px-6 py-3 border-2 border-[rgb(var(--color-primary))] text-[rgb(var(--color-primary))] rounded-full font-semibold hover:bg-[rgb(var(--color-primary))] hover:text-white transition-colors"
           >
             <Share2 className="mr-2" size={16} />
             Share
