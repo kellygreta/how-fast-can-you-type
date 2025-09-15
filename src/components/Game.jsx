@@ -16,6 +16,7 @@ import TextDisplay from "./TextDisplay";
 import TypingInput from "./TypingInput";
 import Countdown from "./Countdown";
 
+//TODO FIX WPM CALCULUS
 const Game = forwardRef(({ onGameEnd }, ref) => {
   const [gameState, setGameState] = useState({
     isPlaying: false,
@@ -69,11 +70,9 @@ const Game = forwardRef(({ onGameEnd }, ref) => {
       if (
         i < gameState.currentText.length &&
         value[i] === gameState.currentText[i]
-      ) {
+      )
         correctChars++;
-      } else {
-        errors++;
-      }
+      else errors++;
     }
 
     setGameState((prev) => ({
@@ -84,9 +83,7 @@ const Game = forwardRef(({ onGameEnd }, ref) => {
       currentIndex: value.length,
     }));
 
-    if (value.length >= gameState.currentText.length) {
-      endTest();
-    }
+    if (value.length >= gameState.currentText.length) endTest();
   };
 
   const startTest = () => {
@@ -131,41 +128,45 @@ const Game = forwardRef(({ onGameEnd }, ref) => {
     clearInterval(timerRef.current);
     clearInterval(countdownRef.current);
 
-    setGameState((prev) => ({
-      ...prev,
-      isPlaying: false,
-      isCountingDown: false,
-    }));
+    setGameState((prev) => {
+      const stats = {
+        wpm: prev.startTime
+          ? Math.round(
+              prev.correctChars / 5 / ((Date.now() - prev.startTime) / 60000)
+            )
+          : 0,
+        accuracy: prev.typedChars
+          ? Math.round((prev.correctChars / prev.typedChars) * 100)
+          : 100,
+      };
 
-    const stats = updateStats();
-    const result = {
-      wpm: stats.wpm,
-      accuracy: stats.accuracy,
-      duration: gameState.duration,
-      characters: gameState.typedChars,
-      errors: gameState.errors,
-      timestamp: new Date().toISOString(),
-    };
+      const result = {
+        wpm: stats.wpm,
+        accuracy: stats.accuracy,
+        duration: prev.duration,
+        characters: prev.typedChars,
+        errors: prev.errors,
+        timestamp: new Date().toISOString(),
+      };
 
-    onGameEnd(result);
-  }, [gameState, updateStats, onGameEnd]);
+      onGameEnd(result); // send result to App
+
+      return { ...prev, isPlaying: false, isCountingDown: false };
+    });
+  }, [onGameEnd]);
 
   const resetGame = useCallback(() => {
-    // Clear all intervals first
     clearInterval(timerRef.current);
     clearInterval(countdownRef.current);
-
-    // Clear the refs to prevent any lingering interval references
     timerRef.current = null;
     countdownRef.current = null;
 
-    // Reset all state to initial values
     setGameState((prev) => ({
       isPlaying: false,
       isCountingDown: false,
-      duration: prev.duration, // Keep the selected duration
-      timeLeft: prev.duration, // Reset timeLeft to match duration
-      currentText: prev.currentText, // Keep current text or will be updated by selectRandomText
+      duration: prev.duration,
+      timeLeft: prev.duration,
+      currentText: prev.currentText,
       typedChars: 0,
       correctChars: 0,
       errors: 0,
@@ -173,21 +174,12 @@ const Game = forwardRef(({ onGameEnd }, ref) => {
       currentIndex: 0,
     }));
 
-    // Reset other state variables
     setTypedText("");
     setCountdown(3);
-
-    // Select a new random text
     selectRandomText();
   }, [selectRandomText]);
 
-  useImperativeHandle(
-    ref,
-    () => ({
-      resetGame: resetGame,
-    }),
-    [resetGame]
-  );
+  useImperativeHandle(ref, () => ({ resetGame }), [resetGame]);
 
   const handleDurationChange = (duration) => {
     if (!gameState.isPlaying && !gameState.isCountingDown) {
@@ -236,9 +228,7 @@ const Game = forwardRef(({ onGameEnd }, ref) => {
           value={typedText}
           onChange={handleTyping}
           onKeyDown={(e) => {
-            if (e.key === "Backspace" || e.key === "Tab") {
-              e.preventDefault();
-            }
+            if (e.key === "Backspace" || e.key === "Tab") e.preventDefault();
           }}
           disabled={!gameState.isPlaying}
           placeholder={
@@ -257,9 +247,7 @@ const Game = forwardRef(({ onGameEnd }, ref) => {
             onClick={startTest}
             className="px-8 py-4 rounded-full text-lg font-semibold text-white hover:shadow-lg hover:transform hover:-translate-y-1 transition-all duration-300"
             style={{
-              backgroundImage: `linear-gradient(to right,
-              rgb(var(--color-primary)),
-              rgb(var(--color-primary-hover)))`,
+              backgroundImage: `linear-gradient(to right, rgb(var(--color-primary)), rgb(var(--color-primary-hover)))`,
             }}
           >
             Start Test
@@ -272,9 +260,7 @@ const Game = forwardRef(({ onGameEnd }, ref) => {
           <button
             onClick={resetGame}
             className="px-6 py-3 rounded-full font-semibold text-white transition-all duration-300"
-            style={{
-              backgroundColor: "rgb(var(--color-secondary))",
-            }}
+            style={{ backgroundColor: "rgb(var(--color-secondary))" }}
           >
             <RotateCcw className="inline-block mr-2" size={16} />
             Reset
