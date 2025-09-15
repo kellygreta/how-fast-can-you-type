@@ -1,12 +1,20 @@
-# React + Vite
+# TypeSprint
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+TypeSprint is a fast-paced, theme-aware typing test application built with React and TailwindCSS. It tracks your typing speed, accuracy, errors, and provides a countdown before the test. You can switch between light and dark themes and share your results with friends.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Light and Dark mode support
+- Countdown before the test starts
+- Live stats including WPM, accuracy, characters typed, and errors
+- Progress bar showing test completion
+- Randomized text samples
+- Retry and reset functionality
+- Share results via Web Share API or clipboard
+- Fully responsive design
 
-## Expanding the ESLint configuration
+## Technologies
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- React (with Hooks & Context API)
+- TailwindCSS
+- Lucide-react for icons
