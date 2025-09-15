@@ -1,4 +1,12 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  forwardRef,
+  useImperativeHandle,
+  useMemo,
+} from "react";
 import { RotateCcw } from "lucide-react";
 import { SAMPLE_TEXTS } from "../constants";
 import ModeSelector from "./ModeSelector";
@@ -8,7 +16,7 @@ import TextDisplay from "./TextDisplay";
 import TypingInput from "./TypingInput";
 import Countdown from "./Countdown";
 
-const Game = ({ onGameEnd }) => {
+const Game = forwardRef(({ onGameEnd }, ref) => {
   const [gameState, setGameState] = useState({
     isPlaying: false,
     isCountingDown: false,
@@ -142,15 +150,22 @@ const Game = ({ onGameEnd }) => {
     onGameEnd(result);
   }, [gameState, updateStats, onGameEnd]);
 
-  const resetGame = () => {
+  const resetGame = useCallback(() => {
+    // Clear all intervals first
     clearInterval(timerRef.current);
     clearInterval(countdownRef.current);
 
+    // Clear the refs to prevent any lingering interval references
+    timerRef.current = null;
+    countdownRef.current = null;
+
+    // Reset all state to initial values
     setGameState((prev) => ({
-      ...prev,
       isPlaying: false,
       isCountingDown: false,
-      timeLeft: prev.duration,
+      duration: prev.duration, // Keep the selected duration
+      timeLeft: prev.duration, // Reset timeLeft to match duration
+      currentText: prev.currentText, // Keep current text or will be updated by selectRandomText
       typedChars: 0,
       correctChars: 0,
       errors: 0,
@@ -158,9 +173,21 @@ const Game = ({ onGameEnd }) => {
       currentIndex: 0,
     }));
 
+    // Reset other state variables
     setTypedText("");
+    setCountdown(3);
+
+    // Select a new random text
     selectRandomText();
-  };
+  }, [selectRandomText]);
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      resetGame: resetGame,
+    }),
+    [resetGame]
+  );
 
   const handleDurationChange = (duration) => {
     if (!gameState.isPlaying && !gameState.isCountingDown) {
@@ -168,7 +195,7 @@ const Game = ({ onGameEnd }) => {
     }
   };
 
-  const stats = updateStats();
+  const stats = useMemo(() => updateStats(), [updateStats]);
   const progress =
     ((gameState.duration - gameState.timeLeft) / gameState.duration) * 100;
 
@@ -242,6 +269,7 @@ const Game = ({ onGameEnd }) => {
       )}
     </div>
   );
-};
+});
 
+Game.displayName = "Game";
 export default Game;
